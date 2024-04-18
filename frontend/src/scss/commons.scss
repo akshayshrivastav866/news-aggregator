@@ -1,0 +1,15 @@
+.shadow {
+	box-shadow: 0 0 6px 3px rgba( 0, 0, 0, 0.10 );
+
+	&--1 {
+		box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.1);
+	}
+}
+
+.border-radius {
+	border-radius: 0.6rem;
+}
+
+.border-radius-full-circle {
+	border-radius: 50%;
+}
