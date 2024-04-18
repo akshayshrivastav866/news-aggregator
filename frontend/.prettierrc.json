@@ -1,0 +1,44 @@
+{
+	"printWidth": 80,
+	"overrides": [
+		{
+			"files": "*.{css,sass,scss}",
+			"options": {
+				"singleQuote": false
+			}
+		},
+		{
+			"files": "*{js,jsx,ts,tsx}",
+			"options": {
+				"singleQuote": true,
+				"tabWidth": 2,
+				"bracketSpacing": true,
+				"jsxBracketSameLine": false,
+				"arrayElementSpacing": true,
+				"objectPropertySpacing": true,
+				"arrayBracketSpacing": true
+			}
+		},
+		{
+			"files": "*{json}",
+			"options": {
+				"tabWidth": 2,
+				"quoteProps": "consistent",
+				"singleQuote": false,
+				"trailingComma": "all",
+				"bracketSpacing": true,
+				"arrayElementSpacing": true,
+				"objectPropertySpacing": true,
+				"arrayBracketSpacing": true
+			}
+		},
+		{
+			"files": "*.{yaml,yml}",
+			"options": {
+				"singleQuote": false,
+				"tabWidth": 2,
+				"useTabs": false
+			}
+		}
+	]
+}
