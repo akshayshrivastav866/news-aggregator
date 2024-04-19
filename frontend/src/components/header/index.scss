@@ -20,4 +20,14 @@
 		color: #3e64ff !important;
 		transition: opacity 0.3s ease-in-out;
 	}
+
+	li.ant-menu-item a:hover {
+		color: #1677ff;
+	}
+
+	.ant-menu-item:hover {
+		&::after {
+			border-bottom: transparent !important;
+		}
+	}
 }
