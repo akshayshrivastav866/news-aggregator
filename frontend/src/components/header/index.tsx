@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import type { PageProps } from 'gatsby';
 import type { MenuProps } from 'antd';
 import { Col, Layout, Row, Avatar, Menu } from 'antd';
+import { handleLogout } from '../../redux/auths';
 
 const { Header } = Layout;
 
@@ -31,17 +32,24 @@ const items: MenuProps['items'] = [
 		),
 		key: 'preferences',
 	},
-	// {
-	// 	label: (
-	// 		<Link
-	// 			to="/contribute"
-	// 			activeClassName="feeds-header__active"
-	// 		>
-	// 			Contribute
-	// 		</Link>
-	// 	),
-	// 	key: 'contribute',
-	// }
+	{
+		label: (
+			<span
+				className="feeds-header__link"
+				onClick={() => handleLogout()}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						handleLogout();
+					}
+				}}
+				role="button"
+				tabIndex={0}
+			>
+      Logout
+			</span>
+		),
+		key: 'logout',
+	}
 ];
 
 const Navigation: React.FC<PageProps> = () => {
