@@ -6,11 +6,12 @@
   "author": "Akshay Shrivastav",
   "keywords": [
     "gatsby",
-		"news aggregator",
-		"akshay shrivastav"
+    "news aggregator",
+    "akshay shrivastav"
   ],
   "dependencies": {
     "antd": "^5.15.3",
+    "axios": "^1.6.8",
     "gatsby": "^5.13.3",
     "gatsby-plugin-brotli": "^2.1.0",
     "gatsby-plugin-image": "^3.13.1",
