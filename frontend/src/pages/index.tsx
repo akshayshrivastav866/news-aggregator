@@ -5,7 +5,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col, Divider } from 'antd';
 
 import 'scss/index.scss';
-import 'scss/login.scss'
+import 'scss/login.scss';
 
 const seoProps: { [ key: string ]: string } = {
 	title: 'Pro News Feed - News just as you want!!',
