@@ -2,7 +2,7 @@ import React from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
 import { navigate } from 'gatsby';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Row, Col, Divider } from 'antd';
+import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 import 'scss/index.scss';
 import 'scss/login.scss';
@@ -21,10 +21,10 @@ const IndexPage: React.FC<PageProps> = () => {
 
 	return (
 		<Row gutter={ [ 16, 16 ] } align="middle" justify="center">
-			<Col className="news-login__main shadow" span={ 6 }>
+			<Col className="feeds-login shadow border-radius" span={ 6 }>
 				<Form
 					name="normal_login"
-					className="login-form"
+					className="feeds-login__form"
 					initialValues={{ remember: true }}
 					onFinish={onFinish}
 				>
@@ -32,20 +32,20 @@ const IndexPage: React.FC<PageProps> = () => {
 						name="username"
 						rules={[{ required: true, message: 'Please input your Username!' }]}
 					>
-						<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+						<Input prefix={<UserOutlined className="feeds-login__input site-form-item-icon" />} placeholder="Username" />
 					</Form.Item>
 					<Form.Item
 						name="password"
 						rules={[{ required: true, message: 'Please input your Password!' }]}
 					>
 						<Input
-							prefix={<LockOutlined className="site-form-item-icon" />}
+							prefix={<LockOutlined className="feeds-login__input site-form-item-icon" />}
 							type="password"
 							placeholder="Password"
 						/>
 					</Form.Item>
 					<Row justify="end">
-						<a className="login-form-forgot" href="/">
+						<a className="feeds-login__forgot-click" href="/">
 							Forgot password?
 						</a>
 					</Row>
@@ -55,11 +55,10 @@ const IndexPage: React.FC<PageProps> = () => {
 						</Form.Item>
 					</Form.Item>
 					<Form.Item>
-						<Button type="primary" htmlType="submit" block className="login-form-button">
+						<Button type="primary" htmlType="submit" block className="feeds-login__button login-form-button">
 							Log in
 						</Button>
 					</Form.Item>
-					<Divider/>
 					<Row justify="center">
 						<a className="text-right" href="/">Not registered?</a>
 					</Row>

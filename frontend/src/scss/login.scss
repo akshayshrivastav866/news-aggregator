@@ -1,6 +1,25 @@
-.news-login {
-	&__main {
-		top: 20vh;
-		padding: 20px;
+.feeds-login {
+	top: 20vh;
+	padding: 20px;
+	background: #fff;
+
+	&__form {
+		padding: 20px 20px 10px;
+	}
+
+	&__input {
+		height: 30px;
+	}
+
+	&__button {
+		height: 35px;
+	}
+
+	.ant-input {
+		padding-left: 8px !important;
+	}
+
+	&__forgot-click {
+		margin-top: -20px;
 	}
 }
