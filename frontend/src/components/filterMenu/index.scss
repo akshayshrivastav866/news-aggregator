@@ -1,0 +1,33 @@
+.feeds-filter-menu {
+	&__checkbox-label {
+		display: block;
+		width: 100%;
+		cursor: pointer;
+	}
+
+	.ant-menu-submenu-title {
+		background: transparent !important;
+	}
+
+	.ant-menu.ant-menu-root.ant-menu-inline {
+		border-inline-end: transparent !important;
+	}
+
+	.ant-menu-submenu-title {
+		padding: 0 !important;
+	}
+
+	.ant-menu-submenu-arrow {
+		text-align: right;
+	}
+
+	.ant-menu-item.ant-menu-item-only-child {
+		padding-left: 10px !important;
+		padding-inline-start: 5px !important;
+		padding-inline-end: 0 !important;
+	}
+
+	.ant-menu.ant-menu-sub.ant-menu-inline {
+		background: transparent !important;
+	}
+}
