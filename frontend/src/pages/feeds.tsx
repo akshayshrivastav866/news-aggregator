@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-import {
-	LaptopOutlined,
-	NotificationOutlined,
-	UserOutlined,
-	EditOutlined,
-	SettingOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import { EditOutlined, SettingOutlined } from '@ant-design/icons';
 import type { HeadFC, PageProps } from 'gatsby';
-import { Breadcrumb, Layout, Menu, Card, Avatar, Typography } from 'antd';
+import { Breadcrumb, Layout, Card, Typography, Tag, Flex } from 'antd';
+import Filters from 'components/filters';
+import Search from 'components/search';
+import Navigation from 'components/header';
+import WebFooter from 'components/footer';
 
 const { Title } = Typography;
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 const seoProps: { [key: string]: string } = {
 	title: 'Pro news feed - Your customized news feed!',
@@ -20,96 +17,84 @@ const seoProps: { [key: string]: string } = {
 	keywords: '',
 };
 
+const data = [
+	{
+		img: {
+			src: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+			alt: 'example',
+		},
+		category: 'health',
+		source: 'BBC',
+		author: 'sourcer',
+		title: 'Card Title',
+		excerpt: 'This is the description',
+		link: '/'
+	},
+	{
+		img: {
+			src: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+			alt: 'example',
+		},
+		category: 'health',
+		source: 'BBC',
+		author: 'sourcer',
+		title: 'Card Title',
+		excerpt: 'This is the description',
+		link: '/'
+	}
+];
+
 const { Meta } = Card;
-
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-	key,
-	label: `nav ${key}`,
-}));
-
-const items2: MenuProps['items'] = [
-	UserOutlined,
-	LaptopOutlined,
-	NotificationOutlined,
-].map((icon, index) => {
-	const key = String(index + 1);
-
-	return {
-		key: `sub${key}`,
-		icon: React.createElement(icon),
-		label: `subnav ${key}`,
-
-		children: new Array(4).fill(null).map((_, j) => {
-			const subKey = index * 4 + j + 1;
-			return {
-				key: subKey,
-				label: `option${subKey}`,
-			};
-		}),
-	};
-});
 
 const FeedsPage: React.FC<PageProps> = () => {
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<Layout>
-			<Header style={{ display: 'flex', alignItems: 'center' }}>
-				<div className="demo-logo" />
-				<Menu
-					mode="horizontal"
-					defaultSelectedKeys={['2']}
-					items={items1}
-					style={{ flex: 1, minWidth: 0 }}
-				/>
-				<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" /> Profile Dropdown
-			</Header>
-			<Content style={{ padding: '0 48px' }}>
+		<Layout className="feeds-layout">
+			<Navigation />
+			<Content>
 				{/* <Breadcrumb style={{ margin: '16px 0' }}>
 					<Breadcrumb.Item>Home</Breadcrumb.Item>
 					<Breadcrumb.Item>News Feed</Breadcrumb.Item>
 				</Breadcrumb> */}
-				<Layout style={{ padding: '24px 0' }}>
-					<Sider width={250}>
-						<Title level={3}>
-							Filters
-						</Title>
-						<Menu
-							mode="inline"
-							defaultSelectedKeys={['1']}
-							defaultOpenKeys={['sub1', 'sub2', 'sub3' ]}
-							style={{ height: '100%' }}
-							items={items2}
-						/>
-					</Sider>
+				<Layout style={{ margin: '30px 0' }}>
+					<Filters />
 					<Content style={{ padding: '0 24px', minHeight: 280 }}>
-						<Card
-							loading={loading}
-							style={{ width: 300 }}
-							cover={
-								<img
-									alt="example"
-									src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-								/>
+						<Search />
+						<Flex gap="20px" wrap="wrap">
+							{
+								data.map((item, index) => (
+									<Card
+										key={index}
+										loading={loading}
+										style={{ width: 300 }}
+										className="shadow"
+										cover={
+											<img
+												alt={item.img.alt}
+												src={item.img.src}
+											/>
+										}
+										actions={[
+											<SettingOutlined key="setting" />,
+											<EditOutlined key="edit" />,
+										]}
+									>
+										<Flex gap="4px 0" wrap="wrap">
+											<Tag color="purple">{item.category}</Tag>
+											<Tag color="magenta">{item.source}</Tag>
+											<Tag color="cyan">{item.author}</Tag>
+										</Flex>
+										<Title level={1}>{item.title}</Title>
+										<Meta description={item.excerpt} />
+									</Card>
+								))
 							}
-							actions={[
-								<SettingOutlined key="setting" />,
-								<EditOutlined key="edit" />,
-							]}
-						>
-							<Meta
-								title="Card title"
-								description="This is the description"
-							/>
-						</Card>
+						</Flex>
 					</Content>
 				</Layout>
 			</Content>
-			<Footer style={{ textAlign: 'right' }}>
-				©{new Date().getFullYear()} Created by Akshay Shrivastav
-				<br />
-				We hope you love this customized news feed!
-			</Footer>
+			<WebFooter />
 		</Layout>
 	);
 };
