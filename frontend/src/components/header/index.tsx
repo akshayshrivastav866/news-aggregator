@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import type { PageProps } from 'gatsby';
 import type { MenuProps } from 'antd';
 import { Col, Layout, Row, Avatar, Menu } from 'antd';
-import { handleLogout } from '../../redux/auths';
+import { logout } from '../../redux/auths';
 
 const { Header } = Layout;
 
@@ -36,10 +36,10 @@ const items: MenuProps['items'] = [
 		label: (
 			<span
 				className="feeds-header__link"
-				onClick={() => handleLogout()}
+				onClick={() => logout()}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
-						handleLogout();
+						logout();
 					}
 				}}
 				role="button"
