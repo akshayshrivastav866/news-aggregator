@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EditOutlined, SettingOutlined } from '@ant-design/icons';
 import type { HeadFC, PageProps } from 'gatsby';
-import { Breadcrumb, Layout, Card, Typography, Tag, Flex } from 'antd';
+import { Layout, Card, Typography, Tag, Flex } from 'antd';
 import Filters from 'components/filters';
 import Search from 'components/search';
 import Navigation from 'components/header';
 import WebFooter from 'components/footer';
+import withAuth from 'components/authWrapper';
+import axios from '../apis/settings';
 
 const { Title } = Typography;
-
-const { Content, Footer, Sider } = Layout;
+const { Content } = Layout;
+const { Meta } = Card;
 
 const seoProps: { [key: string]: string } = {
 	title: 'Pro news feed - Your customized news feed!',
@@ -44,21 +46,39 @@ const data = [
 	}
 ];
 
-const { Meta } = Card;
-
 const FeedsPage: React.FC<PageProps> = () => {
-	const [loading, setLoading] = useState(false);
+	const [filters, setFilters] = useState({});
+	const [filterLoading, setFiltersLoading] = useState(false);
+
+	const getFilters = async () => {
+		try {
+			const _response = await axios.get('/filters');
+
+			if (_response.status === 200) {
+				setFilters({..._response?.data?.data});
+				setFiltersLoading(false);
+			}
+
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		} finally {
+			setFiltersLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		getFilters();
+	}, []);
 
 	return (
 		<Layout className="feeds-layout">
 			<Navigation />
 			<Content>
-				{/* <Breadcrumb style={{ margin: '16px 0' }}>
-					<Breadcrumb.Item>Home</Breadcrumb.Item>
-					<Breadcrumb.Item>News Feed</Breadcrumb.Item>
-				</Breadcrumb> */}
 				<Layout style={{ margin: '30px 0' }}>
-					<Filters />
+					<Filters
+						data={ filters }
+						showSkeleton={ filterLoading }
+					/>
 					<Content style={{ padding: '0 24px', minHeight: 280 }}>
 						<Search />
 						<Flex gap="20px" wrap="wrap">
@@ -66,7 +86,7 @@ const FeedsPage: React.FC<PageProps> = () => {
 								data.map((item, index) => (
 									<Card
 										key={index}
-										loading={loading}
+										loading={false}
 										style={{ width: 300 }}
 										className="shadow"
 										cover={
@@ -99,6 +119,6 @@ const FeedsPage: React.FC<PageProps> = () => {
 	);
 };
 
-export default FeedsPage;
+export default withAuth( FeedsPage );
 
 export const Head: HeadFC = () => <title>{seoProps?.title}</title>;
