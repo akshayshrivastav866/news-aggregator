@@ -68,6 +68,18 @@ class UserController extends Controller {
         ]);
     }
 
+    /**
+     * Since this function is added in protected group of sanctum middleware.
+     * If it reached here it means user is holding valid token.
+     */
+    public function isTokenValid() {
+        return response()->json([
+            'status' => true,
+            'message' => 'Valid Token!',
+            'data' => [],
+        ]);
+    }
+
     public function profile() {
         return response()->json([
             'status' => true,
