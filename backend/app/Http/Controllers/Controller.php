@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 abstract class Controller {
     protected $defined_preferences = [
-        'categories' => [ 'business', 'health', 'general' ],
-        'authors' => [ 'CNBC', 'BBC', 'Economic Times' ],
-        'sources' => [ 'India', 'U.S.A', 'Germany' ],
+        'categories' => [ 'business', 'health', 'general', 'science', 'sports' ],
+        'authors' => [ 'Javier Lacort', 'Uriel Bederman', 'Simon Cohen' ],
+        'sources' => [ 'CNET', 'MacRumors', 'Hipertextual', 'Digital Trends', 'Yahoo Entertainment' ],
     ];
 }
