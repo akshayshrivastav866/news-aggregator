@@ -8,8 +8,6 @@ import './index.scss';
 const FilterMenu: React.FC<PageProps> = (props) => {
 	const { data = {} } = props;
 
-	console.log( 'here : ', data );
-
 	return (
 		<div className="feeds-filter-menu">
 			<Menu mode="inline" defaultOpenKeys={openKeys}>

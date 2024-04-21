@@ -3,7 +3,7 @@ import { EditOutlined, SettingOutlined } from '@ant-design/icons';
 import type { HeadFC, PageProps } from 'gatsby';
 import { Layout, Card, Typography, Tag, Flex } from 'antd';
 import Filters from 'components/filters';
-import Search from 'components/search';
+import SearchBar from 'components/search';
 import Navigation from 'components/header';
 import WebFooter from 'components/footer';
 import withAuth from 'components/authWrapper';
@@ -79,8 +79,8 @@ const FeedsPage: React.FC<PageProps> = () => {
 						data={ filters }
 						showSkeleton={ filterLoading }
 					/>
-					<Content style={{ padding: '0 24px', minHeight: 280 }}>
-						<Search />
+					<Content style={{ padding: '0 0 0 24px', minHeight: 280 }}>
+						<SearchBar />
 						<Flex gap="20px" wrap="wrap">
 							{
 								data.map((item, index) => (
