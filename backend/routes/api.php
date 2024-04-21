@@ -22,4 +22,7 @@ Route::group([
     // User Preferences Routes.
     Route::get("getPreferences", [PreferencesController::class, "getPreferences"]);
     Route::post("setPreferences", [PreferencesController::class, "setPreferences"]);
+
+    // Main Feeds Page
+    Route::get( "filters", [FeedsController::class, "filters"] );
 });
