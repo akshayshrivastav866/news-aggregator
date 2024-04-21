@@ -1,8 +1,9 @@
-import React from 'react';
-import type { HeadFC, PageProps } from 'gatsby';
+import React, {useEffect, useState } from 'react';
 import { navigate } from 'gatsby';
+import type { HeadFC, PageProps } from 'gatsby';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
+import { Button, Checkbox, Form, Input, Row, Col, notification } from 'antd';
+import { login, register } from '../apis/preLogin';
 
 import 'scss/index.scss';
 import 'scss/login.scss';
@@ -14,13 +15,36 @@ const seoProps: { [ key: string ]: string } = {
 };
 
 const IndexPage: React.FC<PageProps> = () => {
-	const onFinish = (values: any) => {
-		console.log('Received values of form: ', values);
-		navigate( '/feeds' );
+	const [ loginNotification, setLoginNotification ] = useState( {} );
+	const [api, contextHolder ] = notification.useNotification();
+
+	const onFinish = async (values: any) => {
+		const loginResponse = await login(values);
+		setLoginNotification( loginResponse );
+
+		if ( loginResponse.type === 'success') {
+			navigate('/feeds');
+		}
 	};
+
+	useEffect( () => {
+		if (!api || !loginNotification) {
+			return;
+		}
+
+		const { type, title, message } = loginNotification;
+
+		if ( title ) {
+			api[type || 'info']({
+				message: title || '',
+				description: message || ''
+			});
+		}
+	}, [ loginNotification, api ] );
 
 	return (
 		<Row gutter={ [ 16, 16 ] } align="middle" justify="center">
+			{ contextHolder }
 			<Col className="feeds-login shadow border-radius" span={ 6 }>
 				<Form
 					name="normal_login"

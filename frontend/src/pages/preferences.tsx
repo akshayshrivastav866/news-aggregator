@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
-import { Layout, Card, Typography, Flex, Tag, Button, Divider } from 'antd';
+import { Layout, Card, Typography, Flex, Tag, Button, Divider, Skeleton, notification } from 'antd';
 import Navigation from 'components/header';
 import WebFooter from 'components/footer';
-import { setPreferences } from '../apis/preferences';
 import axios from '../apis/settings';
+import withAuth from 'components/authWrapper';
+import { updateUserPreferences } from '../apis/preferences';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -16,56 +17,37 @@ const seoProps: { [key: string]: string } = {
 };
 
 const PreferencesPage: React.FC<PageProps> = () => {
-	const [userPreferences, setUserPreferences] = useState([]);
+	const initialSelectedPreferences = {
+		categories: [],
+		authors: [],
+		sources: []
+	};
+
 	const [loading, setLoading] = useState(true);
+	const [userPreferences, setUserPreferences] = useState([]);
+	const [api, contextHolder ] = notification.useNotification();
+	const [userNotification, setUserNotification ] = useState( {} );
+	const [selectedPreferences, setSelectedPreferences] = useState(initialSelectedPreferences);
 
-	const [selectedCategories, setSelectedCategories] = useState([]);
-	const [selectedAuthors, setSelectedAuthors] = useState([]);
-	const [selectedSources, setSelectedSources] = useState([]);
-
-	const handleSave = () => {
-		const preferences = [
-			{ category: selectedCategories },
-			{ author: selectedAuthors },
-			{ source: selectedSources }
-		];
-
-		setUserPreferences( preferences );
-		// console.log('Selected Preferences:', preferences);
-		// You can perform further processing with the preferences array here
+	const handleSelectionChange = (type, item, checked) => {
+		setSelectedPreferences((prevState) => ({
+			...prevState,
+			[type]: checked
+				? [...prevState[type], item]
+				: prevState[type].filter((selectedItem) => selectedItem !== item)
+		}));
 	};
 
-	const handleCategoryChange = (category, checked) => {
-		const nextSelectedCategories = checked
-			? [...selectedCategories, category]
-			: selectedCategories.filter((c) => c !== category);
-		setSelectedCategories(nextSelectedCategories);
-	};
-
-	const handleAuthorChange = (author, checked) => {
-		const nextSelectedAuthors = checked
-			? [...selectedAuthors, author]
-			: selectedAuthors.filter((a) => a !== author);
-		setSelectedAuthors(nextSelectedAuthors);
-	};
-
-	const handleSourceChange = (source, checked) => {
-		const nextSelectedSources = checked
-			? [...selectedSources, source]
-			: selectedSources.filter((s) => s !== source);
-		setSelectedSources(nextSelectedSources);
-	};
-
-	const getPreferences = async () => {
+	const getUserPreferences = async () => {
 		try {
-			const response = await axios.get('/getData');
+			const _response = await axios.get('/getPreferences');
 
-			if (response?.ok ) {
-				setPreferences({...response?.data});
-				setLoading(false);
-			} else {
+			if (_response.status === 200) {
+				setUserPreferences({..._response?.data?.data});
+				setSelectedPreferences({..._response?.data?.data?.selected});
 				setLoading(false);
 			}
+
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		} finally {
@@ -73,13 +55,39 @@ const PreferencesPage: React.FC<PageProps> = () => {
 		}
 	};
 
-	// Use useEffect hook to fetch data when the component mounts
+	const setPreferences = async () => {
+		const _preferences = {
+			categories: selectedPreferences.categories,
+			authors: selectedPreferences.authors,
+			sources: selectedPreferences.sources
+		};
+
+		const _response = await updateUserPreferences( _preferences );
+		setUserNotification( _response );
+	};
+
 	useEffect(() => {
-		getPreferences();
+		getUserPreferences();
 	}, []);
+
+	useEffect( () => {
+		if (!api || !userNotification) {
+			return;
+		}
+
+		const { type, title, message } = userNotification;
+
+		if ( title ) {
+			api[type || 'info']({
+				message: title || '',
+				description: message || ''
+			});
+		}
+	}, [ userNotification, api ] );
 
 	return (
 		<Layout className="feeds-layout">
+			{ contextHolder }
 			<Navigation />
 			<Content>
 				<Layout style={{ margin: '30px 0' }}>
@@ -90,53 +98,30 @@ const PreferencesPage: React.FC<PageProps> = () => {
 					<Content>
 						<Flex gap="20px" wrap="wrap">
 							{
-								! loading && userPreferences?.categories && (
-									<Card title="Categories" className="shadow">
-										{userPreferences?.categories?.map((category) => (
-											<Tag.CheckableTag
-												key={category}
-												checked={selectedCategories.includes(category)}
-												onChange={(checked) => handleCategoryChange(category, checked)}
-											>
-												{category}
-											</Tag.CheckableTag>
+								!loading ? (
+									<>
+										{Object.keys(selectedPreferences || {}).map((type) => (
+											<Card key={type} title={type.charAt(0).toUpperCase() + type.slice(1)} className="shadow feeds-layout__preferences-card">
+												{(userPreferences?.defined[type] || []).map((item, index) => {
+													const isSelected = (userPreferences?.selected[type] || []).includes(item);
+													return (
+														<Tag.CheckableTag
+															key={index}
+															checked={selectedPreferences?.[`${ type }`].includes(item)}
+															onChange={(checked) => handleSelectionChange(type, item, checked)}
+														>
+															{item}
+														</Tag.CheckableTag>
+													);
+												})}
+											</Card>
 										))}
-									</Card>
-								)
-							}
-							{
-								! loading && userPreferences?.authors && (
-									<Card title="Authors" className="shadow">
-										{userPreferences?.authors?.map((author) => (
-											<Tag.CheckableTag
-												key={author}
-												checked={selectedAuthors.includes(author)}
-												onChange={(checked) => handleAuthorChange(author, checked)}
-											>
-												{author}
-											</Tag.CheckableTag>
-										))}
-									</Card>
-								)
-							}
-							{
-								! loading && userPreferences?.sources && (
-									<Card title="Sources" className="shadow">
-										{userPreferences?.sources?.map((source) => (
-											<Tag.CheckableTag
-												key={source}
-												checked={selectedSources.includes(source)}
-												onChange={(checked) => handleSourceChange(source, checked)}
-											>
-												{source}
-											</Tag.CheckableTag>
-										))}
-									</Card>
-								)
+									</>
+								) : <Skeleton />
 							}
 						</Flex>
 						<Divider />
-						<Button type="primary" onClick={handleSave}>Save Preferences!</Button>
+						<Button type="primary" onClick={setPreferences}>Save Preferences!</Button>
 					</Content>
 				</Layout>
 			</Content>
@@ -145,6 +130,6 @@ const PreferencesPage: React.FC<PageProps> = () => {
 	);
 };
 
-export default PreferencesPage;
+export default withAuth( PreferencesPage );
 
 export const Head: HeadFC = () => <title>{seoProps?.title}</title>;

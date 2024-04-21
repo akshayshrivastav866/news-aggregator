@@ -1,18 +1,21 @@
 import axios from './settings';
 
-export const setPreferences = async ( preferences ) => {
+export const updateUserPreferences = async ( preferences ) => {
 	try {
-		const _endpoint = 'locahost:8000';
+		const _response = await axios.post('/setPreferences', { preferences: preferences });
 
-		const _response = await axios.post( '/setPreferences', preferences );
+		if (_response.status === 200) {
+			const _responsePromiseData = _response.data;
 
-		if ( _response.ok ) {
-			const _responsePromiseData = await _response.json();
-			console.log( _responsePromiseData );
-		} else {
-			console.log( _response );
+			if (_responsePromiseData?.status) {
+				return { type: 'success', message: '', title: _responsePromiseData?.message };
+			}
+
+			return { type: 'error', message: '', title: _responsePromiseData?.message };
 		}
-	} catch ( error ) {
-		console.error( 'Error sending form data:', error );
+
+		return { type: 'error', message: 'Please try again after sometime.', title: 'Something went wrong!' };
+	} catch (error) {
+		return { type: 'error', message: error?.message || '', title: 'Something went wrong!' };
 	}
 };
