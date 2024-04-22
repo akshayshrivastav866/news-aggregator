@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { EditOutlined, SettingOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined } from '@ant-design/icons';
 import type { HeadFC, PageProps } from 'gatsby';
-import { Layout, Card, Typography, Tag, Flex } from 'antd';
+import { Layout, Card, Typography, Tag, Flex, Skeleton } from 'antd';
 import Filters from 'components/filters';
 import SearchBar from 'components/search';
 import Navigation from 'components/header';
@@ -9,9 +9,11 @@ import WebFooter from 'components/footer';
 import withAuth from 'components/authWrapper';
 import axios from '../apis/settings';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
 const { Title } = Typography;
 const { Content } = Layout;
-const { Meta } = Card;
 
 const seoProps: { [key: string]: string } = {
 	title: 'Pro news feed - Your customized news feed!',
@@ -19,34 +21,9 @@ const seoProps: { [key: string]: string } = {
 	keywords: '',
 };
 
-const data = [
-	{
-		img: {
-			src: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-			alt: 'example',
-		},
-		category: 'health',
-		source: 'BBC',
-		author: 'sourcer',
-		title: 'Card Title',
-		excerpt: 'This is the description',
-		link: '/'
-	},
-	{
-		img: {
-			src: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-			alt: 'example',
-		},
-		category: 'health',
-		source: 'BBC',
-		author: 'sourcer',
-		title: 'Card Title',
-		excerpt: 'This is the description',
-		link: '/'
-	}
-];
-
 const FeedsPage: React.FC<PageProps> = () => {
+	const { loading, data } = useSelector((state: RootState) => state.data);
+
 	const [filters, setFilters] = useState({});
 	const [filterLoading, setFiltersLoading] = useState(false);
 
@@ -83,32 +60,33 @@ const FeedsPage: React.FC<PageProps> = () => {
 						<SearchBar />
 						<Flex gap="20px" wrap="wrap">
 							{
-								data.map((item, index) => (
-									<Card
-										key={index}
-										loading={false}
-										style={{ width: 300 }}
-										className="shadow"
-										cover={
-											<img
-												alt={item.img.alt}
-												src={item.img.src}
-											/>
-										}
-										actions={[
-											<SettingOutlined key="setting" />,
-											<EditOutlined key="edit" />,
-										]}
-									>
-										<Flex gap="4px 0" wrap="wrap">
-											<Tag color="purple">{item.category}</Tag>
-											<Tag color="magenta">{item.source}</Tag>
-											<Tag color="cyan">{item.author}</Tag>
-										</Flex>
-										<Title level={1}>{item.title}</Title>
-										<Meta description={item.excerpt} />
-									</Card>
-								))
+								! loading && data?.data ? (
+									data?.data?.map((item, index) => (
+										<Card
+											key={index}
+											loading={false}
+											style={{ width: 300 }}
+											className="shadow"
+											cover={
+												<img
+													alt={item?.title}
+													src={item?.thumbnail}
+												/>
+											}
+											actions={[
+												<a key={index} rel="noreferrer" href={item?.url} target="_blank">
+													View More <DoubleRightOutlined />
+												</a>,
+											]}
+										>
+											<Flex gap="4px 0" wrap="wrap">
+												<Tag color="magenta">{item?.source || 'N/A'}</Tag>
+												<Tag color="cyan">{item?.apiSource}</Tag>
+											</Flex>
+											<Title className="feeds-layout__h3" level={3}>{item?.title}</Title>
+										</Card>
+									))
+								) : <Skeleton active />
 							}
 						</Flex>
 					</Content>

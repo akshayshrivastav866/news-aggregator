@@ -32,4 +32,13 @@ h6 {
 		min-width: 250px;
 		min-height: 100px;
 	}
+
+	&__h3 {
+		font-size: 15px !important;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }

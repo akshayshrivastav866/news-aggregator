@@ -22,7 +22,7 @@ const Filters: React.FC<PageProps> = (props) => {
 						</Title>
 						<FilterMenu data={data} />
 					</Sider>
-				) : <Skeleton/>
+				) : <Skeleton active/>
 			}
 		</div>
 	);

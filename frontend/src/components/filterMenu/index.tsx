@@ -13,13 +13,15 @@ const FilterMenu: React.FC<PageProps> = (props) => {
 			<Menu mode="inline" defaultOpenKeys={openKeys}>
 				{Object.keys(data).map((category) => (
 					<Menu.SubMenu key={category} title={category.charAt(0).toUpperCase() + category.slice(1)}>
-						{data[category].map((item, index) => (
-							<Menu.Item key={`${category}-${index}`}>
-								<label htmlFor={`${category}-${index}`} className="feeds-filter-menu__checkbox-label">
-									<Checkbox id={`${category}-${index}`}>{item}</Checkbox>
-								</label>
-							</Menu.Item>
-						))}
+						{
+							data[category].map((item, index) => (
+								<Menu.Item key={`${category}-${index}`}>
+									<label htmlFor={`${category}-${index}`} className="feeds-filter-menu__checkbox-label">
+										<Checkbox id={`${category}-${index}`}>{item}</Checkbox>
+									</label>
+								</Menu.Item>
+							))
+						}
 					</Menu.SubMenu>
 				))}
 			</Menu>

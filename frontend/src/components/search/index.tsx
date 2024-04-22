@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import type { PageProps } from 'gatsby';
-import type { SearchProps } from 'antd/es/input/Search';
+import React from 'react';
 import { Input } from 'antd';
-
-const { Search } = Input;
+import { useDispatch } from 'react-redux';
+import { fetchDataWithKeyword } from '../../redux/slice';
 
 import './index.scss';
 
-const SearchBar: React.FC<PageProps> = () => {
-	const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
+const { Search } = Input;
+
+const SearchBar: React.FC = () => {
+	const dispatch = useDispatch();
+
+	const onSearch = (value: string) => {
+		dispatch(fetchDataWithKeyword(value));
+	};
 
 	return (
 		<div className="feed-search">
 			<Search
 				className="feed-search__search"
 				placeholder="What's on your mind?"
-				onSearch={onSearch} enterButton
+				onSearch={onSearch}
+				enterButton
 			/>
 		</div>
 	);
 };
 
 export default SearchBar;
-
