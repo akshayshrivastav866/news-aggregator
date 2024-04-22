@@ -26,4 +26,5 @@ Route::group([
     // Main Feeds Page
     Route::get( "filters", [FeedsController::class, "filters"] );
     Route::get( "getSearchedResults", [FeedsController::class, "getSearchedResults"] );
+    Route::get( "getDefaultFeeds", [FeedsController::class, "getDefaultFeeds"] );
 });

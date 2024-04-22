@@ -16,6 +16,7 @@ class FeedsController extends Controller {
         ]);
     }
 
+    // Return results based on search keywords
     public function getSearchedResults( Request $request ) {
         $searchQuery = $request->query('query');
 
@@ -72,9 +73,15 @@ class FeedsController extends Controller {
         return response()->json([
             'status' => 200,
             'message' => 'Search Results',
-            'data' => $finalArray,
-            'source' => 'https://newsapi.org/v2/everything?q=' . $searchQuery . '&pageSize=10&apiKey=' . $this->api_keys['newsapi'],
-            'source1' => 'https://content.guardianapis.com/search?q=' . $searchQuery . '&show-elements=image&page-size=10&api-key=' . $this->api_keys['guardian']
+            'data' => $finalArray
+        ]);
+    }
+
+    public function getDefaultFeeds() {
+        return response()->json([
+            'status' => 200,
+            'message' => '',
+            'data' => []
         ]);
     }
 }
