@@ -8,4 +8,9 @@ abstract class Controller {
         'authors' => [ 'Javier Lacort', 'Uriel Bederman', 'Simon Cohen' ],
         'sources' => [ 'CNET', 'MacRumors', 'Hipertextual', 'Digital Trends', 'Yahoo Entertainment' ],
     ];
+
+    protected $api_keys = [
+        'newsapi' => '',
+        'guardian' => '',
+    ];
 }
