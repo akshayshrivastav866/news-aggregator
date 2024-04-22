@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 import { navigate } from 'gatsby';
 import { getCookie } from 'helpers/cookies';
 
@@ -43,7 +45,11 @@ const withAuth = (WrappedComponent: React.FC<any>) => {
 			return null;
 		}
 
-		return <WrappedComponent {...props} />;
+		return(
+			<Provider store={store}>
+				<WrappedComponent {...props} />;
+			</Provider>
+		);
 	};
 
 	return WithAuth;
