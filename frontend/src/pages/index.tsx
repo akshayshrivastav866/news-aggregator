@@ -45,7 +45,7 @@ const IndexPage: React.FC<PageProps> = () => {
 	return (
 		<Row gutter={ [ 16, 16 ] } align="middle" justify="center">
 			{ contextHolder }
-			<Col className="feeds-login shadow border-radius" span={ 6 }>
+			<Col className="feeds-login shadow border-radius" xs={22} sm={12} md={8} lg={6} xl={6}>
 				<Form
 					name="normal_login"
 					className="feeds-login__form"
