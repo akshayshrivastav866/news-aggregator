@@ -14,6 +14,8 @@ export const login = async (values) => {
 
 			if (_responsePromiseData?.status) {
 				setCookie('authToken', _responsePromiseData?.token);
+				// Set authorization header immediately after login
+				axios.defaults.headers.common['Authorization'] = `Bearer ${_responsePromiseData?.token}`;
 				return { type: 'success', message: '', title: 'Login Successful!' };
 			}
 

@@ -26,6 +26,7 @@ const isAuthTokenValid = async () => {
 const withAuth = (WrappedComponent: React.FC<any>) => {
 	const WithAuth: React.FC<any> = (props) => {
 		const [loading, setLoading] = useState(true);
+		const [authenticated, setAuthenticated] = useState(false);
 
 		useEffect(() => {
 			const checkAuthToken = async () => {
@@ -33,6 +34,8 @@ const withAuth = (WrappedComponent: React.FC<any>) => {
 
 				if (!_isValid) {
 					navigate('/');
+				} else {
+					setAuthenticated(true);
 				}
 
 				setLoading( false );
@@ -41,7 +44,7 @@ const withAuth = (WrappedComponent: React.FC<any>) => {
 			checkAuthToken();
 		}, []);
 
-		if (loading) {
+		if ( !authenticated || loading) {
 			return null;
 		}
 
