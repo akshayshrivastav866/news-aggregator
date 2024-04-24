@@ -50,7 +50,7 @@ const withAuth = (WrappedComponent: React.FC<any>) => {
 
 		return(
 			<Provider store={store}>
-				<WrappedComponent {...props} />;
+				<WrappedComponent {...props} />
 			</Provider>
 		);
 	};
