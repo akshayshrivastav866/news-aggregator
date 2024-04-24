@@ -3,18 +3,18 @@ import { navigate, Link } from 'gatsby';
 import type { HeadFC, PageProps } from 'gatsby';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col, notification } from 'antd';
-import { login } from '../apis/preLogin';
+import { register } from '../apis/preLogin';
 
 import 'scss/index.scss';
 import 'scss/login.scss';
 
 const seoProps: { [ key: string ]: string } = {
-	title: 'Pro News Feed - News just as you want!!',
+	title: 'Pro News Feed - Registration',
 	description: '',
 	keywords: '',
 };
 
-const IndexPage: React.FC<PageProps> = () => {
+const RegisterPage: React.FC<PageProps> = () => {
 	const [ loginNotification, setLoginNotification ] = useState( {} );
 	const [api, contextHolder ] = notification.useNotification();
 
@@ -45,46 +45,52 @@ const IndexPage: React.FC<PageProps> = () => {
 	return (
 		<Row gutter={ [ 16, 16 ] } align="middle" justify="center">
 			{ contextHolder }
-			<Col className="feeds-login shadow border-radius" xs={22} sm={12} md={8} lg={6} xl={6}>
+			<Col className="feeds-register shadow border-radius" xs={22} sm={12} md={8} lg={6} xl={6}>
 				<Form
-					name="normal_login"
-					className="feeds-login__form"
+					name="normal_register"
+					className="feeds-register__form"
 					initialValues={{ remember: true }}
 					onFinish={onFinish}
 				>
 					<Form.Item
-						name="username"
-						rules={[{ required: true, message: 'Please input your Username!' }]}
+						name="name"
+						rules={[{ required: true, message: 'Please input your Name!' }]}
 					>
-						<Input prefix={<UserOutlined className="feeds-login__input site-form-item-icon" />} placeholder="Username" />
+						<Input prefix={<UserOutlined className="feeds-register__input site-form-item-icon" />} placeholder="Name" />
+					</Form.Item>
+					<Form.Item
+						name="email"
+						rules={[{ required: true, message: 'Please input your Email!' }]}
+					>
+						<Input prefix={<UserOutlined className="feeds-register__input site-form-item-icon" />} placeholder="Email" />
 					</Form.Item>
 					<Form.Item
 						name="password"
 						rules={[{ required: true, message: 'Please input your Password!' }]}
 					>
 						<Input
-							prefix={<LockOutlined className="feeds-login__input site-form-item-icon" />}
+							prefix={<LockOutlined className="feeds-register__input site-form-item-icon" />}
 							type="password"
 							placeholder="Password"
 						/>
 					</Form.Item>
-					<Row justify="end">
-						<a className="feeds-login__forgot-click" href="/">
-							Forgot password?
-						</a>
-					</Row>
-					<Form.Item>
-						<Form.Item name="remember" valuePropName="checked" noStyle>
-							<Checkbox>Remember me</Checkbox>
-						</Form.Item>
+					<Form.Item
+						name="confirm_password"
+						rules={[{ required: true, message: 'Please input your Password Again!' }]}
+					>
+						<Input
+							prefix={<LockOutlined className="feeds-register__input site-form-item-icon" />}
+							type="password"
+							placeholder="Confirm Password"
+						/>
 					</Form.Item>
 					<Form.Item>
-						<Button type="primary" htmlType="submit" block className="feeds-login__button login-form-button">
-							Log in
+						<Button type="primary" htmlType="submit" block className="feeds-register__button login-form-button">
+							Register Me
 						</Button>
 					</Form.Item>
 					<Row justify="center">
-						<Link to="/register">Not registered?</Link>
+						<Link to="/">Sign in!</Link>
 					</Row>
 				</Form>
 			</Col>
@@ -92,6 +98,6 @@ const IndexPage: React.FC<PageProps> = () => {
 	);
 };
 
-export default IndexPage;
+export default RegisterPage;
 
 export const Head: HeadFC = () => <title>{ seoProps?.title }</title>;
