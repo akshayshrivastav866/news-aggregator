@@ -39,9 +39,14 @@ export const { fetchDataRequest, fetchDataSuccess, fetchDataFailure } = dataSlic
 
 export const fetchDataWithKeyword = (keyword: string): AppThunk => async (dispatch) => {
 	dispatch(fetchDataRequest());
+
 	try {
-		const response = await axios.get(`/getSearchedResults?query=${keyword}`);
-		dispatch(fetchDataSuccess(response.data));
+		if (keyword.trim() === '') {
+			dispatch(fetchDataSuccess([]));
+		} else {
+			const response = await axios.get(`/getSearchedResults?query=${keyword}`);
+			dispatch(fetchDataSuccess(response.data));
+		}
 	} catch (err) {
 		dispatch(fetchDataFailure(err.message));
 	}
