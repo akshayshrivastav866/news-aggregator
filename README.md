@@ -9,6 +9,14 @@ Pull articles from various sources and displays them in a clean, easy-to-read fo
 3. MySQL
 4. AntD
 
+# Pre-requisites
+
+1. Composer
+2. Node
+3. PHP v8.2
+4. MySQL
+5. PHPmyAdmin (Optional, if you want to see data visually)
+
 # News API Uses
 
 PN: API keys are mandatory for this application to work!!
@@ -28,11 +36,12 @@ There are 2 folders `backend` and `frontend`, each to be run individually.
 4. npm start, once step 3 completes
 5. Open URL provided at the end of build
 
-# Installation & Up for Frontend
+# Installation & Up for Backend
 
 1. Assuming you have cloned repo and on root level
 2. cd `backend`
 3. composer install `(Installing all BE project dependencies)`
 4. php artisan migrate
+5. Open `backend/app/Http/Controllers/Controller.php` and input API keys acquired from respective sources
 5. php artisan serve
 6. Open URL provided at after success of step 5
