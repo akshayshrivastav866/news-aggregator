@@ -17,26 +17,30 @@ const seoProps: { [key: string]: string } = {
 };
 
 const PreferencesPage: React.FC<PageProps> = () => {
-	const initialSelectedPreferences = {
-		categories: [],
-		authors: [],
-		sources: []
-	};
-
 	const [loading, setLoading] = useState(true);
 	const [userPreferences, setUserPreferences] = useState([]);
 	const [api, contextHolder ] = notification.useNotification();
 	const [userNotification, setUserNotification ] = useState( {} );
-	const [selectedPreferences, setSelectedPreferences] = useState(initialSelectedPreferences);
+	const [selectedPreferences, setSelectedPreferences] = useState([]);
 
 	const handleSelectionChange = (type, item, checked) => {
-		setSelectedPreferences((prevState) => ({
-			...prevState,
-			[type]: checked
-				? [...prevState[type], item]
-				: prevState[type].filter((selectedItem) => selectedItem !== item)
-		}));
+		setSelectedPreferences((prevState) => {
+			const updatedPreferences = { ...prevState };
+
+			if (!Array.isArray(updatedPreferences[type])) {
+				updatedPreferences[type] = [];
+			}
+			if (checked) {
+				updatedPreferences[type].push(item);
+			} else {
+				updatedPreferences[type] = updatedPreferences[type].filter(
+					(selectedItem) => selectedItem !== item
+				);
+			}
+			return updatedPreferences;
+		});
 	};
+
 
 	const getUserPreferences = async () => {
 		try {
@@ -85,6 +89,7 @@ const PreferencesPage: React.FC<PageProps> = () => {
 		}
 	}, [ userNotification, api ] );
 
+
 	return (
 		<Layout className="feeds-layout">
 			{ contextHolder }
@@ -97,31 +102,51 @@ const PreferencesPage: React.FC<PageProps> = () => {
 					<Divider />
 					<Content>
 						{
-							!loading ? (
+							! loading ? (
 								<Row gutter={ [16, 16] } justify="space-evenly">
-									{Object.keys(selectedPreferences || {}).map((type, mainIndex) => (
-										<Col key={ mainIndex } xs={24} sm={8} sm={8} lg={8}>
-											<Card key={type} title={type.charAt(0).toUpperCase() + type.slice(1)} className="shadow feeds-layout__preferences-card">
-												<Flex gap="20px" wrap="wrap">
-													{(userPreferences?.defined[type] || []).map((item, index) => {
-														const isSelected = (userPreferences?.selected[type] || []).includes(item);
-
-														return (
+									{(!selectedPreferences || selectedPreferences.length === 0) ? (
+									// Display defined data
+										Object.keys(userPreferences?.defined || {}).map((type, mainIndex) => (
+											<Col key={mainIndex} span={24}>
+												<Card key={type} title={type.charAt(0).toUpperCase() + type.slice(1)} className="shadow feeds-layout__preferences-card">
+													<Flex gap="20px" wrap="wrap">
+														{(userPreferences?.defined[type] || []).map((item, index) => (
 															<Tag.CheckableTag
 																key={index}
-																checked={selectedPreferences?.[`${ type }`].includes(item)}
+																checked={false}
+																className="feeds-layout__tags"
 																onChange={(checked) => handleSelectionChange(type, item, checked)}
 															>
 																{item}
 															</Tag.CheckableTag>
-														);
-													})}
-												</Flex>
-											</Card>
-										</Col>
-									))}
+														))}
+													</Flex>
+												</Card>
+											</Col>
+										))
+									) : (
+									// Display defined data and check selected items
+										Object.keys(userPreferences?.defined || {}).map((type, mainIndex) => (
+											<Col key={mainIndex} span={24}>
+												<Card key={type} title={type.charAt(0).toUpperCase() + type.slice(1)} className="shadow feeds-layout__preferences-card">
+													<Flex gap="20px" wrap="wrap">
+														{(userPreferences?.defined[type] || []).map((item, index) => (
+															<Tag.CheckableTag
+																key={index}
+																checked={selectedPreferences?.[type]?.includes(item)}
+																className="feeds-layout__tags"
+																onChange={(checked) => handleSelectionChange(type, item, checked)}
+															>
+																{item}
+															</Tag.CheckableTag>
+														))}
+													</Flex>
+												</Card>
+											</Col>
+										))
+									)}
 								</Row>
-							) : <Skeleton active />
+							) : <Skeleton />
 						}
 						<Divider />
 						<Button type="primary" onClick={setPreferences}>Save Preferences!</Button>

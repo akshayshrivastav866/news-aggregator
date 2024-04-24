@@ -28,6 +28,10 @@ h6 {
 	max-width: 1366px;
 	padding: 10px 15px;
 
+	&__tags {
+		text-transform: capitalize;
+	}
+
 	&__preferences-card {
 		min-width: 250px;
 		min-height: 100px;
