@@ -65,7 +65,7 @@ const Navigation: React.FC<PageProps> = () => {
 						/>
 					</Col>
 					<Col span={1}>
-						<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />
+						{/* <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" /> */}
 					</Col>
 				</Row>
 			</Header>
