@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import type { HeadFC, PageProps } from 'gatsby';
 import { Layout, Card, Typography, Tag, Flex, Skeleton } from 'antd';
-import Filters from 'components/filters';
 import SearchBar from 'components/search';
 import Navigation from 'components/header';
 import WebFooter from 'components/footer';
 import withAuth from 'components/authWrapper';
-import axios from '../apis/settings';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
+import { fetchDefaultData } from '../redux/slice';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -22,46 +21,32 @@ const seoProps: { [key: string]: string } = {
 };
 
 const FeedsPage: React.FC<PageProps> = () => {
+	const dispatch = useDispatch();
 	const { loading, data } = useSelector((state: RootState) => state.data);
 
-	const [filters, setFilters] = useState({});
-	const [filterLoading, setFiltersLoading] = useState(false);
+	const urlSearchParams = new URLSearchParams(window.location.search);
+	const searchKeywordFromURL = urlSearchParams.get('search');
 
-	const getFilters = async () => {
-		try {
-			const _response = await axios.get('/filters');
-
-			if (_response.status === 200) {
-				setFilters({..._response?.data?.data});
-				setFiltersLoading(false);
-			}
-
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-			setFiltersLoading(false);
+	useEffect( () => {
+		if ( ! searchKeywordFromURL) {
+			dispatch(fetchDefaultData());
 		}
-	};
-
-	useEffect(() => {
-		getFilters();
-	}, []);
+	}, [dispatch, searchKeywordFromURL]);
 
 	return (
 		<Layout className="feeds-layout">
 			<Navigation />
 			<Content>
 				<Layout style={{ margin: '30px 0' }}>
-					<Filters
-						data={ filters }
-						showSkeleton={ filterLoading }
-					/>
-					<Content style={{ padding: '0 0 0 24px', minHeight: 280 }}>
+					<Content style={{ minHeight: 280 }}>
 						<SearchBar />
-						<Flex gap="20px" wrap="wrap">
+						<Title className="feeds-layout__h1" level={1}>
+							{data?.message}
+						</Title>
+						<Flex gap="40px" wrap="wrap">
 							{
 								! loading && data?.data ? (
-									data?.data?.map((item, index) => (
+									(data?.data?.map((item, index) => (
 										<Card
 											key={index}
 											loading={false}
@@ -84,7 +69,7 @@ const FeedsPage: React.FC<PageProps> = () => {
 												<Tag color="cyan">{item?.apiSource}</Tag>
 											</Flex>
 											<Title className="feeds-layout__h3" level={3}>{item?.title}</Title>
-										</Card>
+										</Card>)
 									))
 								) : <Skeleton active />
 							}
