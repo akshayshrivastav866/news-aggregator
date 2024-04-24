@@ -14,6 +14,13 @@ class UserController extends Controller {
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|confirmed'
+        ], [
+            'name.required' => 'Name is required!',
+            'email.required' => 'Email is required!',
+            'email.email' => 'Invalid Email-ID!',
+            'email.unique' => 'Oops! Email already taken!',
+            'password.required' => 'Password is required!',
+            'password.confirmed' => 'Passwords do not match!'
         ]);
 
         // Validations passed, let's register user.
@@ -94,7 +101,9 @@ class UserController extends Controller {
     }
 
     public function logout() {
-        // auth()->user()->tokens()->delete(); // uncomment this to delete all tokens associated to current user.
+        // uncomment below line delete all tokens associated to current user.
+        // auth()->user()->tokens()->delete();
+
         auth()->user()->currentAccessToken()->delete();
 
         return response()->json([

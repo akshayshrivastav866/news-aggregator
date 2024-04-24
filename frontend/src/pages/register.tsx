@@ -15,24 +15,26 @@ const seoProps: { [ key: string ]: string } = {
 };
 
 const RegisterPage: React.FC<PageProps> = () => {
-	const [ loginNotification, setLoginNotification ] = useState( {} );
+	const [ registerNotification, setRegisterNotification ] = useState( {} );
 	const [api, contextHolder ] = notification.useNotification();
 
 	const onFinish = async (values: any) => {
-		const loginResponse = await login(values);
-		setLoginNotification( loginResponse );
+		const registerResponse = await register(values);
+		setRegisterNotification( registerResponse );
 
-		if ( loginResponse.type === 'success') {
-			navigate('/feeds');
+		if ( registerResponse.type === 'success') {
+			setTimeout( () => {
+				navigate('/');
+			}, 2000 );
 		}
 	};
 
 	useEffect( () => {
-		if (!api || !loginNotification) {
+		if (!api || !registerNotification) {
 			return;
 		}
 
-		const { type, title, message } = loginNotification;
+		const { type, title, message } = registerNotification;
 
 		if ( title ) {
 			api[type || 'info']({
@@ -40,7 +42,7 @@ const RegisterPage: React.FC<PageProps> = () => {
 				description: message || ''
 			});
 		}
-	}, [ loginNotification, api ] );
+	}, [ registerNotification, api ] );
 
 	return (
 		<Row gutter={ [ 16, 16 ] } align="middle" justify="center">
@@ -75,7 +77,7 @@ const RegisterPage: React.FC<PageProps> = () => {
 						/>
 					</Form.Item>
 					<Form.Item
-						name="confirm_password"
+						name="password_confirmation"
 						rules={[{ required: true, message: 'Please input your Password Again!' }]}
 					>
 						<Input
@@ -90,7 +92,7 @@ const RegisterPage: React.FC<PageProps> = () => {
 						</Button>
 					</Form.Item>
 					<Row justify="center">
-						<Link to="/">Sign in!</Link>
+						<Link to="/">Have an account? Sign in!</Link>
 					</Row>
 				</Form>
 			</Col>

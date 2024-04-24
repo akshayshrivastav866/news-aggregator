@@ -34,7 +34,7 @@ export const login = async (values) => {
  */
 export const register = async (values) => {
 	try {
-		const _response = await axios.post('/register', { name: values?.name, email: values?.username, password: values?.password });
+		const _response = await axios.post('/register', values);
 
 		if (_response.status === 200) {
 			const _responsePromiseData = _response.data;
@@ -48,6 +48,13 @@ export const register = async (values) => {
 
 		return { type: 'error', message: 'Please try again after sometime.', title: 'Something went wrong!' };
 	} catch (error) {
+		if (error?.response?.status === 422) {
+			const validationMessages = error?.response?.data?.errors;
+			const errorMessage = Object.keys(validationMessages).map((key) => validationMessages[key].join('\n')) .join('\n');
+
+			return { type: 'error', message: '', title: errorMessage };
+		}
+
 		return { type: 'error', message: error?.message || '', title: 'Something went wrong!' };
 	}
 };
