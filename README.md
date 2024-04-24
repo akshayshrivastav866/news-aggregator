@@ -28,14 +28,6 @@ PN: API keys are mandatory for this application to work!!
 
 There are 2 folders `backend` and `frontend`, each to be run individually.
 
-# Installation & Up for Frontend
-
-1. Clone this repo in local from master branch
-2. cd `frontend`
-3. npm i `(Installing all BE project dependencies)`
-4. npm start, once step 3 completes
-5. Open URL provided at the end of build
-
 # Installation & Up for Backend
 
 1. Assuming you have cloned repo and on root level
@@ -45,3 +37,12 @@ There are 2 folders `backend` and `frontend`, each to be run individually.
 5. Open `backend/app/Http/Controllers/Controller.php` and input API keys acquired from respective sources
 5. php artisan serve
 6. Open URL provided at after success of step 5
+
+# Installation & Up for Frontend
+
+1. Clone this repo in local from master branch
+2. cd `frontend`
+3. npm i `(Installing all BE project dependencies)`
+4. npm start, once step 3 completes
+5. Copy local URL, generated after running laravel app and paste it in `frontend/src/apis/settings.ts` line no 4.
+6. Open URL provided at the end of build

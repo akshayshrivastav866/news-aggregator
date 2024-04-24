@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { getCookie } from 'helpers/cookies';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+const url = 'http://127.0.0.1:8000';
+axios.defaults.baseURL = `${ url }/api`;
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
