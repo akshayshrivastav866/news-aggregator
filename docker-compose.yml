@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+  gatsby:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+        - ./frontend/src:/app/src
+    ports:
+      - "3000:8000"
+    tty: true
