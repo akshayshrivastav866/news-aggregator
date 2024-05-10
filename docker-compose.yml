@@ -1,7 +1,7 @@
-# version: "3.9"
+version: "3.9"
 
 services:
-  # PHP Service
+  # Laravel Service
   php:
     build:
       context: ./backend
@@ -19,8 +19,8 @@ services:
       - 8000:8000
     depends_on:
       - database
-      - redis
-
+    networks:
+      - news-network
 
   # Database Service
   database:
@@ -34,15 +34,11 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
+    networks:
+      - news-network
 
-  # Redis Service
-  redis:
-    image: redis:alpine
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
-    ports:
-      - 6379:6379
-
-  gatsby:
+  # Gatsby Service
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -51,6 +47,14 @@ services:
     ports:
       - "3000:8000"
     tty: true
+    depends_on:
+      - php
+    networks:
+      - news-network
 
 volumes:
   db-data: ~
+
+networks:
+  news-network:
+    driver: bridge
