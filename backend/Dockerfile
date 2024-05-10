@@ -18,4 +18,4 @@ RUN curl -sS https://getcomposer.org/download/2.7.2/composer.phar -o /usr/bin/co
     chmod +x /usr/bin/composer
 
 ENV port=8000
-ENTRYPOINT [ ".docker/entryPoint.sh" ]
+ENTRYPOINT [ "docker/entryPoint.sh" ]
