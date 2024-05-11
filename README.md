@@ -5,17 +5,16 @@ Pull articles from various sources and displays them in a clean, easy-to-read fo
 # Technology Stack Used
 
 1. Laravel
-2. React (Binded with Gatsby) + TypeScript
-3. MySQL
-4. AntD
+2. MySQL
+3. AntD
+4. React (Binded with Gatsby) + TypeScript
 
 # Pre-requisites
 
-1. Composer
-2. Node
-3. PHP v8.2
-4. MySQL
-5. PHPmyAdmin (Optional, if you want to see data visually)
+1. Composer (v2.7.2)
+2. Docker (v26.1.2)
+3. docker compose (v2.26.1)
+2. PHPmyAdmin (Optional, if you want to see data visually)
 
 # News API Uses
 
@@ -24,25 +23,21 @@ PN: API keys are mandatory for this application to work!!
 1. News API - click [here](https://newsapi.org/docs/get-startedguardain) to get the API key
 2. Guardian API - click [here](https://bonobo.capi.gutools.co.uk/register/developer) to get the API key
 
-# Folder(s)
+# Folder Structure
 
-There are 2 folders `backend` and `frontend`, each to be run individually.
+- news-aggregator
+  |_ build.sh
+  |_ docker-compose.yml
+  |_ frontend
+    |_ Dockerfile
+  |_ backend
+    |_ Dockerfile
 
-# Installation & Up for Backend
+# Project Installation and Setup
 
-1. Assuming you have cloned repo and on root level
-2. cd `backend`
-3. composer install `(Installing all BE project dependencies)`
-4. php artisan migrate
-5. Open `backend/app/Http/Controllers/Controller.php` and input API keys acquired from respective sources
-5. php artisan serve
-6. Open URL provided at after success of step 5
-
-# Installation & Up for Frontend
-
-1. Clone this repo in local from master branch
-2. cd `frontend`
-3. npm i `(Installing all BE project dependencies)`
-4. npm start, once step 3 completes
-5. Copy local URL, generated after running laravel app and paste it in `frontend/src/apis/settings.ts` line no 4.
-6. Open URL provided at the end of build
+1. Clone [this repo](https://github.com/akshayshrivastav866/news-aggregator) in local from master branch
+2. cd `news-aggregator`
+3. run `./build.sh --env=local` (First build will take time as it will build BE + FE images)
+4. Once build is completed run `./build.sh --env=local --status=start`
+5. BE would be available on http://localhost:8000
+6. FE would be available on http://172.25.0.4:8000 (or keep an eye on gatsby build end)
