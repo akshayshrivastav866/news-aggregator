@@ -80,7 +80,7 @@
     "build": "npm run clean && NODE_ENV=production gatsby build --prefix-paths",
     "local": "npm run build && npm serve",
     "start": "npm run clean && npm run develop",
-    "develop": "gatsby develop -H 0.0.0.0",
+    "develop": "gatsby develop -H ${GATSBY_HOST} -p ${GATSBY_PORT}",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit"
