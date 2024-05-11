@@ -11,6 +11,8 @@ services:
         - APP_ENV=${APP_ENV}
     environment:
       - APP_ENV=${APP_ENV}
+      - HOST=${HOST}
+      - PORT=${PORT}
       - CONTAINER_ROLE=app
     working_dir: /var/www
     volumes:
@@ -42,6 +44,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      - GATSBY_HOST=${GATSBY_HOST}
+      - GATSBY_PORT=${GATSBY_PORT}
     volumes:
         - ./frontend/src:/app/src
     ports:
