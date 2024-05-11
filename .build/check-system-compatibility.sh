@@ -1,4 +1,5 @@
 #!/bin/bash
+
 source "./.build/colors.sh"
 
 #================   Pre-requisite definitions
@@ -69,5 +70,4 @@ else
     exit 1
 fi
 
-echo -e ""
 exit 0
