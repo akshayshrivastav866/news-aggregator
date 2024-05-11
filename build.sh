@@ -2,31 +2,27 @@
 
 BUILD_DIR=".build/"
 
-# Import required files
+#================   Import required files
 source "${BUILD_DIR}colors.sh"
 source "${BUILD_DIR}global.sh"
-source "${BUILD_DIR}parse-cli-inputs.sh"
 
-#================   Check ENV variable status
-if [ -z "$ENV" ]; then
-    echo -e "${YELLOW}:: Info :: Please pass --env parameter.${YELLOW}"
-    echo -e "${ORANGE}:: Hint :: ./build.sh --env=<environment>${ORANGE}"
-    exit 1
-fi
+# Check system compatibility
+if bash "${BUILD_DIR}check-system-compatibility.sh"; then
+    source "${BUILD_DIR}parse-cli-inputs.sh"
 
-#================   Build or start container/image
-if [ -z "$STATUS" ] || [ "$STATUS" = "start" ]; then
-    DOCKER_STATUS="up --remove-orphans"
-elif [ "$STATUS" = "build" ]; then
-    DOCKER_STATUS="build"
-fi
+    #================   Check ENV variable status
+    if [ -z "$ENV" ]; then
+        echo -e "${YELLOW}:: Info :: Please pass --env parameter.${NC}"
+        echo -e "${ORANGE}:: Hint :: ./build.sh --env=<environment>${NC}"
+        exit 1
+    fi
 
-
-#================   Execute docker logic based on inputs
-if [ "$ENV" = "local" ]; then
-    source "${BUILD_DIR}local-build.sh"
-else
-    echo -e "${RED}:: Error :: Invalid environment \"$ENV\"${RED}"
-    echo -e "${ORANGE}:: Hint  :: Supported environments: ${SUPPORTED_ENVIRONMENTS}${ORANGE}"
-    exit 1
+    #================   Execute docker logic based on inputs
+    if [ "$ENV" = "local" ]; then
+        source "${BUILD_DIR}local-build.sh"
+    else
+        echo -e "${RED}:: Error :: Invalid environment \"$ENV\"${NC}"
+        echo -e "${ORANGE}:: Hint  :: Supported environments: ${SUPPORTED_ENVIRONMENTS}${NC}"
+        exit 1
+    fi
 fi
