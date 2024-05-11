@@ -5,8 +5,8 @@ if [ ! -f vendor/autload.php ]; then
 fi
 
 if [ ! -f ".env" ]; then
-    echo "Env file not found, creating new env file using backup .env file for $APP_ENV"
-    cp .env.example .env
+    echo -e "${RED}Env file not found, for $APP_ENV exiting!!${NC}"
+    exit 1
 fi
 
 php artisan migrate
@@ -15,5 +15,5 @@ php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 
-php artisan serve --port=$PORT --host=0.0.0.0 --env=.env
+php artisan serve --port=$PORT --host=$HOST --env=.env
 exec docker-php-entrypoint "$@"
