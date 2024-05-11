@@ -1,1 +1,4 @@
 .env
+
+# VS CODE
+.fuse_hidden*
