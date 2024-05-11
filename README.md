@@ -37,9 +37,11 @@ PN: API keys are mandatory for this application to work!!
 
 # Project Installation and Setup
 
+PN: Setup localhost URL and ports via editing `.env-global` in root directory.
+
 1. Clone [this repo](https://github.com/akshayshrivastav866/news-aggregator) in local from master branch
 2. cd `news-aggregator`
 3. run `./build.sh --env=local` (First build will take time as it will build BE + FE images)
-4. Once build is completed run `./build.sh --env=local --status=start`
-5. BE would be available on http://localhost:8000
-6. FE would be available on http://172.25.0.4:8000 (or keep an eye on gatsby build end)
+4. Once build is completed run `docker compose up`
+5. BE would be available on http://`defined_host_in_.env-global`:`defined_port_in_.env-global`
+6. FE would be available on http://`defined_gatsby-host_in_.env-global`:`defined_gatsby-port_in_.env-global` (or keep an eye on gatsby build end)
