@@ -25,6 +25,7 @@ PN: API keys are mandatory for this application to work!!
 
 # Folder Structure
 
+```
 - news-aggregator
   |_ build.sh
   |_ docker-compose.yml
@@ -32,6 +33,7 @@ PN: API keys are mandatory for this application to work!!
     |_ Dockerfile
   |_ backend
     |_ Dockerfile
+```
 
 # Project Installation and Setup
 
