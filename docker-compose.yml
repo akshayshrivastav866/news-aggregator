@@ -45,13 +45,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
+      - GATSBY_BE_API_URL=http://${HOST}:${PORT}
       - GATSBY_HOST=${GATSBY_HOST}
       - GATSBY_PORT=${GATSBY_PORT}
     volumes:
         - ./frontend/src:/app/src
     ports:
-      - "3000:8000"
-    tty: true
+      - ${GATSBY_PORT}:8000
     depends_on:
       - php
     networks:
