@@ -12,6 +12,7 @@ Pull articles from various sources and displays them in a clean, easy-to-read fo
 # Pre-requisites
 
 1. Ubuntu/Mac or any system that support bash/sh scripts execution `(Sehr wichtig / Muy importante / Important)`
+    - If you are using windows system, make sure `wsl (windows subsystem for linux)` is installed so that we can execute bash scripts
 2. Composer (v2.7.2)
 3. Docker (v26.1.2)
 4. docker compose (v2.26.1)
@@ -49,6 +50,7 @@ PN: API keys are mandatory for this application to work!!
 1. Clone [this repo](https://github.com/akshayshrivastav866/news-aggregator) in local from master branch
 2. cd `news-aggregator`
 3. run `sudo ./build.sh --env=local` (First build will take time as it will build BE + FE images) - PN: `sudo` is optional but, if setup not working as expected you can use sudo
+    - If you have windows system and wsl installed run `wsl ./build.sh --env=local`
 4. Once build is completed run `docker compose up`
 5. BE would be available on http://`defined_host_in_.env-global`:`defined_port_in_.env-global`
 6. FE would be available on http://`defined_gatsby-host_in_.env-global`:`defined_gatsby-port_in_.env-global` (or keep an eye on gatsby build end)
