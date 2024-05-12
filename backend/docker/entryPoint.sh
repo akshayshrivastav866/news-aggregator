@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -f vendor/autload.php ]; then
-    composer install --no-progress --no-interaction
+    composer install --no-progress --no-interaction  --no-dev --ignore-platform-reqs
 fi
 
 if [ ! -f ".env" ]; then
