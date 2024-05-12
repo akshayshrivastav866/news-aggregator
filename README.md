@@ -54,3 +54,4 @@ PN: API keys are mandatory for this application to work!!
 4. Once build is completed run `docker compose up`
 5. BE would be available on http://`defined_host_in_.env-global`:`defined_port_in_.env-global`
 6. FE would be available on http://`defined_gatsby-host_in_.env-global`:`defined_gatsby-port_in_.env-global` (or keep an eye on gatsby build end)
+7. Start development... Yay!!
