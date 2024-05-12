@@ -1,0 +1,26 @@
+{
+    "name": "akshayshrivastav866/news-aggregator",
+    "type": "news-aggregator",
+    "description": "View news from various sources as your personalized feed!",
+    "keywords": [
+        "laravel",
+        "php",
+        "gatsby",
+        "react",
+        "typescript",
+        "antd",
+        "docker",
+        "bash",
+        "akshayshrivastav866",
+        "news-aggregator"
+    ],
+    "scripts": {
+        "build-local": "./build.sh --env=local",
+        "server-start": "docker compose up",
+        "server-stop": "docker compose down",
+        "server-restart": [
+            "@server:stop",
+            "@server:start"
+        ]
+    }
+}
