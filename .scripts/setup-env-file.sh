@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "./.build/colors.sh"
+source "./.scripts/colors.sh"
 
 echo -e "\n${YELLOW}###################### Generating updated .env file${NC}\n"
 

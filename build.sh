@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BUILD_DIR=".build/"
+BUILD_DIR=".scripts/"
 
 #================   Import required files
 source "${BUILD_DIR}colors.sh"

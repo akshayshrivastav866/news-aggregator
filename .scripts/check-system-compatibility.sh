@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "./.build/colors.sh"
+source "./.scripts/colors.sh"
 
 #================   Pre-requisite definitions
 MIN_COMPOSER_VERSION=2.7.2
