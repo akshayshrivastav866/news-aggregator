@@ -36,19 +36,19 @@ PN: API keys are mandatory for this application to work!!
     |_ Dockerfile
 ```
 
-# Project Installation and Setup
-
-1. Clone [this repo](https://github.com/akshayshrivastav866/news-aggregator) in local from master branch
-2. cd `news-aggregator`
-3. run `./build.sh --env=local` (First build will take time as it will build BE + FE images)
-4. Once build is completed run `docker compose up`
-5. BE would be available on http://`defined_host_in_.env-global`:`defined_port_in_.env-global`
-6. FE would be available on http://`defined_gatsby-host_in_.env-global`:`defined_gatsby-port_in_.env-global` (or keep an eye on gatsby build end)
-
-# Important Notes
+# Important Notes before project setup
 
 1. Setup localhost URL and ports via editing `.env-global` in root directory.
 2. Upon editing `.env-global`, `backend/.env`, `frontend/.env.development`
     - Run this command on root directory of project `./.build/setup-env-file`
     - Then run `docker compose down && docker compose up` to take this changes in effect for running updated container
 3. If these updated env files are being used inside FE or BE app for build (Ex: API calls, starting server), etc you might need to recreate images accordingly (Optional since step 2 will do the charm but just in case...)
+
+# Project Installation and Setup
+
+1. Clone [this repo](https://github.com/akshayshrivastav866/news-aggregator) in local from master branch
+2. cd `news-aggregator`
+3. run `sudo ./build.sh --env=local` (First build will take time as it will build BE + FE images) - PN: `sudo` is optional but, if setup not working as expected you can use sudo
+4. Once build is completed run `docker compose up`
+5. BE would be available on http://`defined_host_in_.env-global`:`defined_port_in_.env-global`
+6. FE would be available on http://`defined_gatsby-host_in_.env-global`:`defined_gatsby-port_in_.env-global` (or keep an eye on gatsby build end)
